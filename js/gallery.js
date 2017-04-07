@@ -136,6 +136,11 @@ window.addEventListener('load', function() {
 $('#nextPhoto').click( function() {
 swapPhoto();
 });
+
+$('#prevPhoto').click( function() {
+swapPhoto1();
+});
+
 }, false);
  
  function swapPhoto1() {

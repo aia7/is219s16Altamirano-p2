@@ -41,19 +41,19 @@ function getQueryParams(qs) {//this is for the get section file.js
  }
  return params;
 }
+
 var $_GET = getQueryParams(document.location.search);
 $_GET["json"];
 
 
 
 
-// URL for the JSON to load by default
-// Some options for you are: images.json, images.short.json; you will need to create your own extra.json later
+
+
 
 // Holds the retrived JSON information
 var mJson;
-//create a conditional to for the json files to be choosen.
-//
+
 var mURL = "images.json";
 var mRequest = new XMLHttpRequest();
 mRequest.onreadystatechange = function() {
@@ -83,38 +83,20 @@ mRequest.send();
 
 
 function swapPhoto() {
+
+$('.details').eq(0).hide();
   if(mCurrentIndex==mImages.length){
 
   mCurrentIndex=0;
 
-  } 
-  else {
+  } else if(mCurrentIndex==0){
+    $('#photo').attr("src",mImages[mCurrentIndex].img);
+    console.log("hello");
+    console.log(mCurrentIndex);
 
-  $('#photo').attr("src",mImages[mCurrentIndex].img);
-mCurrentIndex++;
-  }
+    $('.details').eq(0).hide();
+    $('.moreIndicator').click(function(){
 
-}
-// Counter for the mImages array
-var mCurrentIndex = 0;
-// Array holding GalleryImage objects (see below).
-var mImages = [];
-//You can optionally use the following function as your event callback for loading the source of Images from your json data (for HTMLImageObject).
-//@param A GalleryImage object. Use this method for an event handler for loading a gallery Image object (optional).
-function makeGalleryImageOnloadCallback(galleryImage) {
-  return function(e) {
-    galleryImage.img = e.target;
-    mImages.push(galleryImage);
-  }
-}
-
-$(document).ready( function() {
-// This initially hides the photos' metadata information
-
-$('.details').eq(0).hide();
-
-$('.moreIndicator').click(function(){
-// up
     if($(this).hasClass('rot90')){
       $('.details').show();
       $(this).removeClass('rot90');
@@ -131,18 +113,6 @@ $('.moreIndicator').click(function(){
         console.log("turn");
         
      }
-     // else {
-
-     //   $(this).removeClass('rot270');
-     //   $(this).addClass('rot90');
-     //   $('.details').hide();
-     //   $('span').remove();
-     // }
-
-       
-  
-
-
 var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
 $('.location').append(loc);
 var des = $('<span></span>').text(mImages[mCurrentIndex].description);
@@ -151,14 +121,110 @@ var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
 $('.date').append(dat);
 
 
-
-//$('.description').append(mImages[mCurrentIndex].description);
-//$('.date').append(mImages[mCurrentIndex].date);
-//mCurrentIndex++;
-
    })
 
-});
+
+
+    mCurrentIndex++;
+    }
+  else {
+
+  $('#photo').attr("src",mImages[mCurrentIndex].img);
+  
+
+$('.moreIndicator').click(function(){
+
+    if($(this).hasClass('rot90')){
+      $('.details').show();
+      $(this).removeClass('rot90');
+      $(this).addClass('rot270');
+      $('span').remove();
+    }
+     else if ($(this).hasClass('rot270')){
+        
+        $('.details').hide();
+        $(this).removeClass('rot270');
+        // document.getElementsByClassName("details")[0].style.display="none";
+        $(this).addClass('rot90');
+        $('span').remove();
+        console.log("turn");
+        
+      }
+var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
+$('.location').append(loc);
+var des = $('<span></span>').text(mImages[mCurrentIndex].description);
+$('.description').append(des);
+var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
+$('.date').append(dat);
+
+
+})
+  mCurrentIndex++;
+   }
+
+}
+
+// Counter for the mImages array
+var mCurrentIndex = 0;
+// Array holding GalleryImage objects (see below).
+var mImages = [];
+//You can optionally use the following function as your event callback for loading the source of Images from your json data (for HTMLImageObject).
+//@param A GalleryImage object. Use this method for an event handler for loading a gallery Image object (optional).
+function makeGalleryImageOnloadCallback(galleryImage) {
+  return function(e) {
+    galleryImage.img = e.target;
+    mImages.push(galleryImage);
+  }
+}
+
+//$(document).ready( function() {
+// This initially hides the photos' metadata information
+
+// $('.details').eq(0).hide();
+
+// $('.moreIndicator').click(function(){
+
+//     if($(this).hasClass('rot90')){
+//       $('.details').show();
+//       $(this).removeClass('rot90');
+//       $(this).addClass('rot270');
+//       $('span').remove();
+//      }
+//      else if ($(this).hasClass('rot270')){
+        
+//         $('.details').hide();
+//         $(this).removeClass('rot270');
+//         // document.getElementsByClassName("details")[0].style.display="none";
+//         $(this).addClass('rot90');
+//         $('span').remove();
+//         console.log("turn");
+        
+//      }
+//      // else {
+
+//      //   $(this).removeClass('rot270');
+//      //   $(this).addClass('rot90');
+//      //   $('.details').hide();
+//      //   $('span').remove();
+//      // }
+
+       
+  
+
+
+// var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
+// $('.location').append(loc);
+// var des = $('<span></span>').text(mImages[mCurrentIndex].description);
+// $('.description').append(des);
+// var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
+// $('.date').append(dat);
+// //mCurrentIndex++;
+
+//    })
+
+//});
+
+
 
 window.addEventListener('load', function() {
   console.log('window loaded');

@@ -24,7 +24,7 @@ function animate() {
   }
 
   if ((currentTime - mLastFrameTime) > mWaitTime) {
-    swapPhoto();
+    //swapPhoto();
     mLastFrameTime = currentTime;
   }
 }
@@ -114,30 +114,35 @@ $(document).ready( function() {
 $('.details').eq(0).hide();
 
 $('.moreIndicator').click(function(){
-
+// up
     if($(this).hasClass('rot90')){
+      $('.details').show();
       $(this).removeClass('rot90');
       $(this).addClass('rot270');
-      $('.details').hide();
       $('span').remove();
      }
      else if ($(this).hasClass('rot270')){
+        
         $('.details').hide();
+        $(this).removeClass('rot270');
+        // document.getElementsByClassName("details")[0].style.display="none";
+        $(this).addClass('rot90');
         $('span').remove();
-
+        console.log("turn");
+        
      }
-     else {
+     // else {
 
-       $(this).removeClass('rot270');
-       $(this).addClass('rot90');
-       $('.details').hide();
-       $('span').remove();
-     }
+     //   $(this).removeClass('rot270');
+     //   $(this).addClass('rot90');
+     //   $('.details').hide();
+     //   $('span').remove();
+     // }
 
        
   
 
-$('.details').eq(0).show();
+
 var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
 $('.location').append(loc);
 var des = $('<span></span>').text(mImages[mCurrentIndex].description);
@@ -151,7 +156,7 @@ $('.date').append(dat);
 //$('.date').append(mImages[mCurrentIndex].date);
 //mCurrentIndex++;
 
-})
+   })
 
 });
 

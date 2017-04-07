@@ -24,7 +24,7 @@ function animate() {
   }
 
   if ((currentTime - mLastFrameTime) > mWaitTime) {
-    //swapPhoto();
+    swapPhoto();
     mLastFrameTime = currentTime;
   }
 }
@@ -42,7 +42,7 @@ function getQueryParams(qs) {//this is for the get section file.js
  return params;
 }
 var $_GET = getQueryParams(document.location.search);
-// console.log($_GET["json"]);
+$_GET["json"];
 
 
 
@@ -95,17 +95,10 @@ mCurrentIndex++;
   }
 
 }
-
-
-
 // Counter for the mImages array
 var mCurrentIndex = 0;
-
 // Array holding GalleryImage objects (see below).
 var mImages = [];
-
-
-
 //You can optionally use the following function as your event callback for loading the source of Images from your json data (for HTMLImageObject).
 //@param A GalleryImage object. Use this method for an event handler for loading a gallery Image object (optional).
 function makeGalleryImageOnloadCallback(galleryImage) {
@@ -117,28 +110,64 @@ function makeGalleryImageOnloadCallback(galleryImage) {
 
 $(document).ready( function() {
 // This initially hides the photos' metadata information
-//$('.details').eq(0).hide();
+
+$('.details').eq(0).hide();
 
 $('.moreIndicator').click(function(){
+
+    if($(this).hasClass('rot90')){
+      $(this).removeClass('rot90');
+      $(this).addClass('rot270');
+      $('.details').hide();
+      $('span').remove();
+     }
+     else if ($(this).hasClass('rot270')){
+        $('.details').hide();
+        $('span').remove();
+
+     }
+     else {
+
+       $(this).removeClass('rot270');
+       $(this).addClass('rot90');
+       $('.details').hide();
+       $('span').remove();
+     }
+
+       
   
-  $('.details').eq(0).show();
 
-  $(this).removeClass("rot90");
-  $(this).addClass("rot270");
-//$('.details').eq(0).show(); //this shows the metadata under the image
+$('.details').eq(0).show();
+var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
+$('.location').append(loc);
+var des = $('<span></span>').text(mImages[mCurrentIndex].description);
+$('.description').append(des);
+var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
+$('.date').append(dat);
 
+
+
+//$('.description').append(mImages[mCurrentIndex].description);
+//$('.date').append(mImages[mCurrentIndex].date);
+//mCurrentIndex++;
 
 })
+
 });
 
 window.addEventListener('load', function() {
   console.log('window loaded');
 $('#nextPhoto').click( function() {
 swapPhoto();
+$('.details').hide();
+$('span').remove();
+
 });
 
 $('#prevPhoto').click( function() {
 swapPhoto1();
+$('.details').hide();
+$('span').remove();
 });
 
 }, false);
@@ -151,14 +180,14 @@ swapPhoto1();
 
   } 
   else {
-if(mCurrentIndex>0){
-  mCurrentIndex--;
-  $('#photo').attr("src",mImages[mCurrentIndex].img);
+      if(mCurrentIndex>0){
+        mCurrentIndex--;
+        $('#photo').attr("src",mImages[mCurrentIndex].img);
 
-}
+      }
 
 
-}
+   }
 
   }
 

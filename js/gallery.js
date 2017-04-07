@@ -12,7 +12,6 @@ window.requestAnimFrame = (function(){
 
 
 // example code from mr doob : http://mrdoob.com/lab/javascript/requestanimationframe/
-
 animate();
 
 var mLastFrameTime = 0;
@@ -43,7 +42,7 @@ function getQueryParams(qs) {//this is for the get section file.js
  return params;
 }
 var $_GET = getQueryParams(document.location.search);
-console.log($_GET["json"]);
+// console.log($_GET["json"]);
 
 
 
@@ -53,7 +52,9 @@ console.log($_GET["json"]);
 
 // Holds the retrived JSON information
 var mJson;
-var mURL = "images-short.json";
+//create a conditional to for the json files to be choosen.
+//
+var mURL = "images.json";
 var mRequest = new XMLHttpRequest();
 mRequest.onreadystatechange = function() {
 // Do something interesting if file is opened successfully
@@ -62,15 +63,14 @@ mRequest.onreadystatechange = function() {
   // Let’s try and see if we can parse JSON
         mJson = JSON.parse(mRequest.responseText);
   // Let’s print out the JSON; It will likely show as “obj”
-        console.log(mJson);
+        // console.log(mJson);
+
 
       for(i=0;i<mJson.images.length;i++){
           mImages.push(new GalleryImage(mJson.images[i].imgLocation,mJson.images[i].description,mJson.images[i].date,mJson.images[i].imgPath));
-        
-
       }
-      console.log(mImages);
-      console.log(mImages[1].location);
+      // console.log(mImages);
+      
 
     } 
     catch(err) {
@@ -83,18 +83,20 @@ mRequest.send();
 
 
 function swapPhoto() {
+  if(mCurrentIndex==mImages.length){
 
+  mCurrentIndex=0;
 
-//Add code here to access the #slideShow element.
-//Access the img element and replace its source
-//with a new image from your images array which is loaded 
-//from the JSON string
-// try to use if and else statements
-console.log('swap photo');
+  } 
+  else {
 
-  $('#photo').attr("src",mImages[mCurrentIndex].imgPath);
-  mCurrentIndex++;// this part you need to find a way to get the next photo
+  $('#photo').attr("src",mImages[mCurrentIndex].img);
+mCurrentIndex++;
+  }
+
 }
+
+
 
 // Counter for the mImages array
 var mCurrentIndex = 0;
@@ -115,18 +117,15 @@ function makeGalleryImageOnloadCallback(galleryImage) {
 
 $(document).ready( function() {
 // This initially hides the photos' metadata information
-$('.details').eq(0).hide();
-
-
-
-
+//$('.details').eq(0).hide();
 
 $('.moreIndicator').click(function(){
+  
   $('.details').eq(0).show();
 
   $(this).removeClass("rot90");
   $(this).addClass("rot270");
-//$('.details').eq(0).show(); this shows the metadata under the image
+//$('.details').eq(0).show(); //this shows the metadata under the image
 
 
 })
@@ -134,8 +133,25 @@ $('.moreIndicator').click(function(){
 
 window.addEventListener('load', function() {
   console.log('window loaded');
-
+$('#nextPhoto').click( function() {
+swapPhoto();
+});
 }, false);
+ 
+ function swapPhoto1() {
+  if(mCurrentIndex==mImages.length){
+
+  mCurrentIndex=13;
+
+  } 
+  else {
+
+  $('#photo').attr("src",mImages[mCurrentIndex].img);
+mCurrentIndex--;
+  }
+
+}
+
 
 function GalleryImage(location,description,date,img) {
 //implement me as an object to hold the following data about an image:

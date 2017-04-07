@@ -24,7 +24,7 @@ function animate() {
   }
 
   if ((currentTime - mLastFrameTime) > mWaitTime) {
-    swapPhoto();
+    //swapPhoto();
     mLastFrameTime = currentTime;
   }
 }
@@ -144,18 +144,25 @@ swapPhoto1();
 }, false);
  
  function swapPhoto1() {
-  if(mCurrentIndex==mImages.length){
+  if(mCurrentIndex==0){
 
   mCurrentIndex=13;
+  console.log(mCurrentIndex);
 
   } 
   else {
-
+if(mCurrentIndex>0){
+  mCurrentIndex--;
   $('#photo').attr("src",mImages[mCurrentIndex].img);
-mCurrentIndex--;
-  }
 
 }
+
+
+}
+
+  }
+
+
 
 
 function GalleryImage(location,description,date,img) {

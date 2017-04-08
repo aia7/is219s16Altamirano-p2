@@ -25,6 +25,7 @@ function animate() {
 
   if ((currentTime - mLastFrameTime) > mWaitTime) {
     //swapPhoto();
+    //mCurrentIndex++;
     mLastFrameTime = currentTime;
   }
 }
@@ -43,18 +44,30 @@ function getQueryParams(qs) {//this is for the get section file.js
 }
 
 var $_GET = getQueryParams(document.location.search);
-$_GET["json"];
+
+if($_GET["json"]==null){
+$_GET["json"]="images.json";
+}
+else if($_GET["json"]=="images-short.json"){
+ $_GET["json"]="images-short.json";
+ }
+else {
+ $_GET["json"]="extra.json";
+ }
 
 
 
 
 
 
+
+// Some options for you are: images.json, images.short.json; you will need to create your own extra.json later
 
 // Holds the retrived JSON information
 var mJson;
-
-var mURL = "images.json";
+//create a conditional to for the json files to be choosen.
+//
+var mURL = $_GET["json"]; //"images.json";
 var mRequest = new XMLHttpRequest();
 mRequest.onreadystatechange = function() {
 // Do something interesting if file is opened successfully
@@ -84,83 +97,23 @@ mRequest.send();
 
 function swapPhoto() {
 
-$('.details').eq(0).hide();
-  if(mCurrentIndex==mImages.length){
+  if(mCurrentIndex==(mImages.length)){
 
   mCurrentIndex=0;
 
   } else if(mCurrentIndex==0){
     $('#photo').attr("src",mImages[mCurrentIndex].img);
-    console.log("hello");
-    console.log(mCurrentIndex);
 
-    $('.details').eq(0).hide();
-    $('.moreIndicator').click(function(){
-
-    if($(this).hasClass('rot90')){
-      $('.details').show();
-      $(this).removeClass('rot90');
-      $(this).addClass('rot270');
-      $('span').remove();
+   
      }
-     else if ($(this).hasClass('rot270')){
-        
-        $('.details').hide();
-        $(this).removeClass('rot270');
-        // document.getElementsByClassName("details")[0].style.display="none";
-        $(this).addClass('rot90');
-        $('span').remove();
-        console.log("turn");
-        
-     }
-var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
-$('.location').append(loc);
-var des = $('<span></span>').text(mImages[mCurrentIndex].description);
-$('.description').append(des);
-var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
-$('.date').append(dat);
-
-
-   })
-
-
-
-    mCurrentIndex++;
-    }
   else {
 
   $('#photo').attr("src",mImages[mCurrentIndex].img);
   
+     
+  
+  }
 
-$('.moreIndicator').click(function(){
-
-    if($(this).hasClass('rot90')){
-      $('.details').show();
-      $(this).removeClass('rot90');
-      $(this).addClass('rot270');
-      $('span').remove();
-    }
-     else if ($(this).hasClass('rot270')){
-        
-        $('.details').hide();
-        $(this).removeClass('rot270');
-        // document.getElementsByClassName("details")[0].style.display="none";
-        $(this).addClass('rot90');
-        $('span').remove();
-        console.log("turn");
-        
-      }
-var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
-$('.location').append(loc);
-var des = $('<span></span>').text(mImages[mCurrentIndex].description);
-$('.description').append(des);
-var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
-$('.date').append(dat);
-
-
-})
-  mCurrentIndex++;
-   }
 
 }
 
@@ -177,66 +130,86 @@ function makeGalleryImageOnloadCallback(galleryImage) {
   }
 }
 
-//$(document).ready( function() {
+$(document).ready( function() {
 // This initially hides the photos' metadata information
 
-// $('.details').eq(0).hide();
+$('.details').eq(0).hide();
 
-// $('.moreIndicator').click(function(){
+$('.moreIndicator').click(function(){
 
-//     if($(this).hasClass('rot90')){
-//       $('.details').show();
-//       $(this).removeClass('rot90');
-//       $(this).addClass('rot270');
-//       $('span').remove();
-//      }
-//      else if ($(this).hasClass('rot270')){
+    if($(this).hasClass('rot90')){
+      $('.details').show();
+      $(this).removeClass('rot90');
+      $(this).addClass('rot270');
+      $('span').remove();
+     }
+     else if ($(this).hasClass('rot270')){
         
-//         $('.details').hide();
-//         $(this).removeClass('rot270');
-//         // document.getElementsByClassName("details")[0].style.display="none";
-//         $(this).addClass('rot90');
-//         $('span').remove();
-//         console.log("turn");
+        $('.details').hide();
+        $(this).removeClass('rot270');
+        // document.getElementsByClassName("details")[0].style.display="none";
+        $(this).addClass('rot90');
+        $('span').remove();
         
-//      }
-//      // else {
-
-//      //   $(this).removeClass('rot270');
-//      //   $(this).addClass('rot90');
-//      //   $('.details').hide();
-//      //   $('span').remove();
-//      // }
+        
+     }
+     
 
        
-  
+  var secondC=mCurrentIndex-1;
+  if(secondC<0){
+    mCurrentIndex=0;
+    var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
+$('.location').append(loc);
+var des = $('<span></span>').text(mImages[mCurrentIndex].description);
+$('.description').append(des);
+var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
+$('.date').append(dat);
 
+  }
+  else{
+var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
+$('.location').append(loc);
+var des = $('<span></span>').text(mImages[mCurrentIndex].description);
+$('.description').append(des);
+var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
+$('.date').append(dat);
+//mCurrentIndex++;
+}
+   })
 
-// var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
-// $('.location').append(loc);
-// var des = $('<span></span>').text(mImages[mCurrentIndex].description);
-// $('.description').append(des);
-// var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
-// $('.date').append(dat);
-// //mCurrentIndex++;
-
-//    })
-
-//});
+});
 
 
 
 window.addEventListener('load', function() {
   console.log('window loaded');
+
 $('#nextPhoto').click( function() {
-swapPhoto();
+if(mCurrentIndex==0){
+  swapPhoto();
+}else {
+  swapPhoto();
+  mCurrentIndex++;
+}
+
 $('.details').hide();
 $('span').remove();
-
+console.log(mCurrentIndex);
+mCurrentIndex++;
 });
 
 $('#prevPhoto').click( function() {
 swapPhoto1();
+if(mCurrentIndex!=0){
+mCurrentIndex--;
+
+}
+else {
+  mCurrentIndex=mImages.length-1;
+}
+
+
 $('.details').hide();
 $('span').remove();
 });
@@ -247,7 +220,7 @@ $('span').remove();
   if(mCurrentIndex==0){
 
   mCurrentIndex=13;
-  console.log(mCurrentIndex);
+  //console.log(mCurrentIndex);
 
   } 
   else {
@@ -259,6 +232,55 @@ $('span').remove();
 
 
    }
+
+  }
+
+  function swapData(){
+$('.details').eq(0).hide();
+
+$('.moreIndicator').click(function(){
+
+    if($(this).hasClass('rot90')){
+      $('.details').show();
+      $(this).removeClass('rot90');
+      $(this).addClass('rot270');
+      $('span').remove();
+     }
+     else if ($(this).hasClass('rot270')){
+        
+        $('.details').hide();
+        $(this).removeClass('rot270');
+        // document.getElementsByClassName("details")[0].style.display="none";
+        $(this).addClass('rot90');
+        $('span').remove();
+        
+        
+     }
+     
+
+       
+  var secondC=mCurrentIndex-1;
+  if(secondC<0){
+    mCurrentIndex=0;
+    var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
+$('.location').append(loc);
+var des = $('<span></span>').text(mImages[mCurrentIndex].description);
+$('.description').append(des);
+var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
+$('.date').append(dat);
+
+  }
+  else{
+var loc = $('<span></span>').text(mImages[mCurrentIndex].location);
+$('.location').append(loc);
+var des = $('<span></span>').text(mImages[mCurrentIndex].description);
+$('.description').append(des);
+var dat = $('<span></span>').text(mImages[mCurrentIndex].date);
+$('.date').append(dat);
+//mCurrentIndex++;
+}
+   })
+
 
   }
 

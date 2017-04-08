@@ -97,7 +97,7 @@ mRequest.send();
 
 function swapPhoto() {
 
-  if(mCurrentIndex==(mImages.length)){
+  if(mCurrentIndex==(mImages.length-1)){
 
   mCurrentIndex=0;
 
